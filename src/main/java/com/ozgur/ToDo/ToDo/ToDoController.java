@@ -19,6 +19,9 @@ public class ToDoController {
     @GetMapping
     public List<ToDo> getAllToDos() {return toDoService.getAllToDos();}
 
+    @GetMapping(path="{id}")
+    public ToDo getToDoById(@PathVariable("id") Long id) {return toDoService.getToDoById(id);}
+
     @PostMapping
     public ToDo addToDo(@RequestBody ToDo toDo) {return toDoService.addToDo(toDo);
     }
