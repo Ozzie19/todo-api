@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ToDoConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ToDo</a> &gt; <a href="index.source.html" class="el_package">com.ozgur.ToDo.ToDo</a> &gt; <span class="el_source">ToDoConfig.java</span></div><h1>ToDoConfig.java</h1><pre class="source lang-java linenums">package com.ozgur.ToDo.ToDo;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
+
+@Configuration
+<span class="nc" id="L10">public class ToDoConfig {</span>
+
+    @Bean
+    CommandLineRunner commandLineRunner(ToDoRepository toDoRepository) {
+<span class="nc" id="L14">        return args -&gt; {</span>
+<span class="nc" id="L15">            ToDo example1 = new ToDo(</span>
+                    &quot;Example 1&quot;,
+                    &quot;This is an example completed task&quot;,
+                    true
+            );
+
+<span class="nc" id="L21">            ToDo example2 = new ToDo(</span>
+                    &quot;Example 2&quot;,
+                    &quot;This is an example of an uncompleted task&quot;,
+                    false
+            );
+
+<span class="nc" id="L27">            toDoRepository.saveAll(</span>
+<span class="nc" id="L28">                    List.of(example1, example2)</span>
+            );
+<span class="nc" id="L30">        };</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
