@@ -32,7 +32,6 @@ public class ToDoService {
         if (toDoOptional.isPresent()) {
             throw new IllegalStateException("Already a pending task with this title");
         }
-        toDoRepository.save(toDo);
         return toDoRepository.save(toDo); // returns the saved entity, including its ID
     }
 
