@@ -1,6 +1,7 @@
 # ToDo API
 
 A RESTful ToDo API built with Spring Boot, PostgreSQL, and Docker, featuring full CRUD operations. The project demonstrates modern backend development practices, containerisation, and deployment via Nginx reverse proxy.
+[**Live demo**](http://ozgur-todo.mooo.com/api/todo)
 
 ---
 
@@ -82,7 +83,7 @@ docker-compose down
 The project includes automated Postman tests to verify all API endpoints.
 
 -   Import `ToDo.postman_collection.json` into Postman.
--   Set up a Postman environment with `{{baseUrl}}` pointing to your API URL.
+-   Set up a Postman environment with `{{baseUrl}}` pointing to your API URL, or import my environment from  `postman/ToDo-API-Env.json` (this tests my domain name so replace with yours). 
 -   The tests dynamically generate titles and validate CRUD operations.
 -   Run the collection to verify API functionality.
 
@@ -112,4 +113,4 @@ The API is deployed using Docker and Docker Compose.
 ## Contact
 
 Created by Ozgur Dorunay
--   GitHub: `https://github.com/Ozzie19/todo-api`
+-   GitHub: https://github.com/Ozzie19/todo-api
