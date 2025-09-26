@@ -33,26 +33,35 @@ A RESTful ToDo API built with Spring Boot, PostgreSQL, and Docker, featuring ful
 -   Java 17+ (for local development without Docker)
 -   Git
 
-### Running Locally with Docker
+## Running the Project Locally
 
-1.  **Clone the repository:**
+1.  **Clone the repository**
     ```bash
-    git clone (https://github.com/Ozzie19/todo-api.git)
-    cd todo-api
+    git clone [https://github.com/your-username/your-repo.git](https://github.com/your-username/your-repo.git)
+    cd your-repo
     ```
-2.  **Copy environment variables:**
-    ```bash
-    cp .env.example .env
-    ```
-3.  **Update `.env`** with your PostgreSQL credentials if needed.
 
-4.  **Start the stack:**
+2.  **Build and run with Docker Compose**
+
+    Make sure you have Docker and Docker Compose installed. Then, from the project's root directory, run:
     ```bash
-    docker-compose up -d
+    docker-compose up --build
     ```
-5.  **Access the API:**
-    -   API base URL: `http://localhost:8080/api/todo`
-    -   Example: `GET /api/todo` to fetch all tasks
+    This command will start both required services:
+    -   The Spring Boot API
+    -   The PostgreSQL database
+
+3.  **Access the API**
+
+    Once the containers are running, you can access the API endpoints at:
+    `http://localhost:8081/api/todo`
+
+### Stopping the Containers
+
+To stop and remove the running containers, use the following command:
+```bash
+docker-compose down
+```
 
 ---
 
