@@ -1,0 +1,340 @@
+{
+	"info": {
+		"_postman_id": "d2ef1e60-079a-4e45-9622-e44b1b592660",
+		"name": "ToDo List Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48390605",
+		"_collection_link": "https://odorunay-3215817.postman.co/workspace/Ozgur's-Workspace~6a828a86-1f81-4376-81e5-de49e3cde41b/collection/48390605-d2ef1e60-079a-4e45-9622-e44b1b592660?action=share&source=collection_link&creator=48390605"
+	},
+	"item": [
+		{
+			"name": "GetAllToDos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an array\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('array');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddPostmanToDo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"",
+							"// Save ID of created ToDo for later requests",
+							"pm.environment.set(\"todoId\", jsonData.id);",
+							"",
+							"// Save title back into environment (in case you want to confirm later)",
+							"pm.environment.set(\"uniqueTitle\", jsonData.title);",
+							"",
+							"// Test that the response status is 200 or 201",
+							"pm.test(\"Status code is 200 or 201\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							"",
+							"// Test that the created ToDo has the expected title",
+							"pm.test(\"Created ToDo has correct title\", function () {",
+							"    pm.expect(jsonData.title).to.eql(pm.environment.get(\"uniqueTitle\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate a unique title with timestamp\r",
+							"let uniqueTitle = \"Postman request \" + Date.now();\r",
+							"\r",
+							"// Store it in an environment variable\r",
+							"pm.environment.set(\"uniqueTitle\", uniqueTitle);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"{{uniqueTitle}}\",\r\n  \"completed\": false\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response JSON\r",
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"// Test that the response status is 200 OK\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test that the returned ToDo has the correct ID\r",
+							"pm.test(\"Returned ToDo has correct ID\", function () {\r",
+							"    pm.expect(jsonData.id).to.eql(parseInt(pm.environment.get(\"todoId\")));\r",
+							"});\r",
+							"\r",
+							"// Test that the title was returned correctly\r",
+							"pm.test(\"Title was returned correctly\", function () {\r",
+							"    pm.expect(jsonData.title).to.eql(pm.environment.get(\"uniqueTitle\"));\r",
+							"});\r",
+							"\r",
+							"// Test that the completed field was returned correctly\r",
+							"pm.test(\"Completed status was returned correctly\", function () {\r",
+							"    pm.expect(jsonData.completed).to.eql(false);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{todoId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{todoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"// Test status\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test correct ID\r",
+							"pm.test(\"Updated ToDo has correct ID\", function () {\r",
+							"    pm.expect(jsonData.id).to.eql(parseInt(pm.environment.get(\"todoId\")));\r",
+							"});\r",
+							"\r",
+							"// Test updated title\r",
+							"pm.test(\"Title was updated correctly\", function () {\r",
+							"    pm.expect(jsonData.title).to.eql(pm.environment.get(\"updatedTitle\"));\r",
+							"});\r",
+							"\r",
+							"// Test completed flag\r",
+							"pm.test(\"Completed status was updated correctly\", function () {\r",
+							"    pm.expect(jsonData.completed).to.eql(true);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let updatedTitle = \"Postman updated \" + Date.now();\r",
+							"pm.environment.set(\"updatedTitle\", updatedTitle);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"{{updatedTitle}}\",\r\n  \"completed\": true\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/{{todoId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{todoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete _id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test DELETE success\r",
+							"pm.test(\"Status code is 200 or 204\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"\r",
+							"// Clear out title vars (keeps things tidy)\r",
+							"pm.environment.unset(\"uniqueTitle\");\r",
+							"pm.environment.unset(\"updatedTitle\");\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{todoId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{todoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verify resource no longer exists\r",
+							"pm.test(\"Status code is 404 after deletion\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{todoId}}\n",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{todoId}}\n"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
