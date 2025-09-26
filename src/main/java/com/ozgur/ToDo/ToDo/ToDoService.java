@@ -64,7 +64,7 @@ public class ToDoService {
         }
 
         Boolean newCompleted = toDo.getCompleted();
-        if (newCompleted != null && !newCompleted.equals(existingToDo.getCompleted())) {
+        if (!newCompleted.equals(existingToDo.getCompleted())) {
             existingToDo.setCompleted(newCompleted);
         }
 
