@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:15
+    container_name: todo-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: tododb
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: todo_pass
+    ports:
+      - "5433:5432"   # expose DB to host if you need local debugging
+    volumes:
+      - todo-data:/var/lib/postgresql/data
+
+  todo-api:
+    build: .
+    container_name: todo-api
+    restart: always
+    ports:
+      - "8081:8080"  # host:container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/tododb
+      SPRING_DATASOURCE_USERNAME: todo_user
+      SPRING_DATASOURCE_PASSWORD: todo_pass
+    depends_on:
+      - postgres
+
+volumes:
+  todo-data:
